@@ -1,0 +1,26 @@
+import random
+
+import numpy as np
+import cv2
+from numpy import shape
+
+def gosh(ori,sigma,mean,expersent):
+    goshimg=ori
+    goshnum=int(expersent*ori.shape[0]*ori.shape[1])
+    for i in range(goshnum):
+      randx=random.randint(0,ori.shape[0]-1)
+      randy = random.randint(0,ori.shape[1] - 1)
+      goshimg[randx,randy]=goshimg[randx,randy]+random.gauss(sigma,mean)
+      if goshimg[randx,randy] > 255:
+          goshimg[randx, randy] = 255
+      elif goshimg[randx,randy] < 0:
+          goshimg[randx, randy] = 0
+    return goshimg
+
+if __name__=='__main__':
+ img = cv2.imread('lenna.png',0)
+ goim = gosh(img,2,5,2.5)
+ img = cv2.imread('lenna.png',0)
+ cv2.imshow('origin',img)
+ cv2.imshow('gosh', goim)
+ cv2.waitKey()
